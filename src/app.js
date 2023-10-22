@@ -27,7 +27,7 @@ exports.parseadorUrls = async function (url, archiveName, numberScrolls){
       const descargar = await descargador(urlsParseadas,archiveName);
       await new Promise((resolve) => setTimeout(resolve, 3000));
       const comprimidor = await compresor(archiveName);
-      await await new Promise((resolve) => setTimeout(resolve, 5 * 60000));
+      await await new Promise((resolve) => setTimeout(resolve, 60000));
       await deleteFiles(archiveName)
 
   } catch (error) {

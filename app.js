@@ -8,7 +8,7 @@ const app = express()
 
 
 
-const port = 3000
+const port = 3002
 
 app.use(bodyParser.json());
 app.use(express.static('public'));
@@ -23,6 +23,13 @@ app.get('/hellow', (req, res) => {
 
 
 
+//esta es la request qoue la cual va estar enfilando cada solicitud en la ruth descargar-perfil-twitter
+const requestQueue = [];
+let isProcessing = false;
+
+// >>>>>>>>>>>>>>>>>
+
+
 
 app.post("/descargar-perfil-twitter", async (req, res) => {
     const {url,nombreArchivo} = req.body
@@ -32,15 +39,33 @@ app.post("/descargar-perfil-twitter", async (req, res) => {
     }
 
     try {
-        console.log("Se empezó con el capturado de URLs de twitter");
+        console.log("se agrego tu solicitud a la solo q para descargar");
 
         // Ejecutar función y luego esperar 40 segundos
+
+//test
+requestQueue.push({ req, res, url, nombreArchivo });
+if (!isProcessing) {
+    processQueue();
+}
+//test
+
+
+
+
+
+
+/*
+          //>>>>>>>>>>>>>>> esto es el codigo funcional sin la request quue
         await parseadorUrls(url,nombreArchivo);
         await new Promise((resolve) => setTimeout(resolve, 40000));
 
         //const filePath = path.join(__dirname, 'puppeter', 'imagenes.zip');
 
         await res.sendStatus(201)
+          //<<<<<<<<<<<<<<<<<
+*/
+
 
         // Comprobar si el archivo existe
         //await checkFileExists(filePath);
@@ -62,6 +87,30 @@ app.post("/descargar-perfil-twitter", async (req, res) => {
         res.status(500).send('Error al capturar URLs de Reddit');
     }
 });
+
+
+//test
+async function processQueue() {
+  if (requestQueue.length === 0) {
+      isProcessing = false;
+      return;
+  }
+  isProcessing = true;
+  const { req, res, url, nombreArchivo } = requestQueue.shift();
+  try {
+      console.log("ya se esta empezando a procesar la que nueva solo que")
+      console.log("Se empezó con el capturado de URLs de twitter");
+      await parseadorUrls(url, nombreArchivo);
+      await new Promise((resolve) => setTimeout(resolve, 10000)); // Retraso de 5 segundos
+      res.sendStatus(201);
+  } catch (err) {
+      console.log(err);
+      res.status(500).send('Error al capturar URLs de Twitter');
+  }
+  processQueue();
+}
+//test
+
 
 
 

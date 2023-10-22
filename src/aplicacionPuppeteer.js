@@ -31,7 +31,7 @@ function navUrlsReddit(urlReddit) {
 // test
 
 
-exports.saveUrlsToFile = async function (URL_PAGE = "https://twitter.com/elonmusk", NUMBER_SCROLLS = 700, TIME_BETWEEN_SCROLL = 3000) {
+exports.saveUrlsToFile = async function (URL_PAGE = "https://twitter.com/elonmusk", NUMBER_SCROLLS = 3, TIME_BETWEEN_SCROLL = 5000) {
   const browser = await chromium.launch({
     //headless: false,
     logger: {
