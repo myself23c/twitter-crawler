@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   fetchFilesBtn.addEventListener("click", async () => {
     try {
-      const response = await fetch("http://localhost:3002/get");
+      const response = await fetch("http://34.70.61.24:3002/get");
       const data = await response.json();
       const files = data.files;
 
@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
         downloadBtn.textContent = "Download";
         
         downloadBtn.addEventListener("click", async () => {
-          const response = await fetch("http://localhost:3002/descargararchivo", {
+          const response = await fetch("http://34.70.61.24:3002/descargararchivo", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
