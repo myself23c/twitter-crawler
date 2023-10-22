@@ -111,18 +111,21 @@ descargador([ 'https://pbs.twimg.com/media/F8Ps2ZebsAA2qQJ?format=jpg&name=large
 'https://pbs.twimg.com/media/F5xn7-QXkAA7ne8?format=jpg&name=large',
 'https://pbs.twimg.com/media/F5IHvY2WYAAWLj3?format=jpg&name=large',]);
 */
+import fsExtra from 'fs-extra';
 
 
-import fs from 'fs';
+//import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-async function deleteFiles() {
+export async function deleteFiles(archiveName) {
+
+  /*
   // Eliminar todo lo que se encuentre en la carpeta ./downloaded_images
-  const directory = path.join(__dirname, 'imagenes_descargadas');
+  const directory = path.join(__dirname, archiveName);
   
   fs.readdir(directory, (err, files) => {
     if (err) throw err;
@@ -134,6 +137,19 @@ async function deleteFiles() {
     }
   });
 
+*/
+
+  
+  const dirPath = path.join(__dirname, archiveName);
+  
+  fsExtra.remove(dirPath, err => {
+    if (err) return console.error(err);
+    console.log('>>>!Carpeta eliminada!<<<');
+  });
+
+  
+  console.log(`se han eliminado todas las imagenes y la carpeta ${archiveName}`)
+  /*
   // Eliminar el archivo ./imagenes.zip
   const zipFile = path.join(__dirname, 'imagenesTwitter.zip');
   
@@ -141,8 +157,13 @@ async function deleteFiles() {
     if (err) throw err;
     console.log(`Deleted ${zipFile}`);
   });
+
+  */
 }
 
 // Ejecuta la función
 
-deleteFiles()
+
+
+
+
