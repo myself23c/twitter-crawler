@@ -52,15 +52,17 @@
   </style>
 </head>
 <body>
+
+ <main style="display: flex;flex-direction: column;">
   <div class="container">
     <div class="form-container">
-      <h1>Formulario</h1>
-      <form id="myForm">
+      <h1>Formulario para descargar de twiiter</h1>
+      <form id="myFormTwitter">
         <div class="form-group">
           <label for="url">URL:</label>
           <input type="text" id="url" name="url">
         </div>
-        <div class="form-group">
+        <div class="for m-group">
           <label for="filename">Nombre del Archivo:</label>
           <input type="text" id="filename" name="filename">
         </div>
@@ -71,49 +73,40 @@
   </div>
 
 
-  <button id="fetchFiles">Cargar Archivos</button>
-  <div id="fileList"></div>
+  <div class="container">
+    <div class="form-container">
+      <h1>Formulario para descargar de reddit</h1>
+      <form id="myFormReddit">
+        <div class="form-group">
+          <label for="url">URL:</label>
+          <input type="text" id="urlReddit" name="url">
+        </div>
+        <div class="form-group">
+          <label for="filename">Nombre del Archivo:</label>
+          <input type="text" id="filenameReddit" name="filename">
+        </div>
+
+        <button type="submit">Descargar</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="form-container">
+      <h2>Archivos en la nube</h2>
+  <button id="fetchFiles"><strong>Cargar Archivos en la nuve</strong></button>
+  <strong><div id="fileList"></div></strong>
+
+</div>
+</div>
+
+</main>
 
   <script src="script.js"></script>
 
   
 
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const form = document.getElementById("myForm");
-      form.addEventListener("submit", async (event) => {
-        event.preventDefault();
-        
-        const urlValue = document.getElementById("url").value;
-        const filenameValue = document.getElementById("filename").value;
-        //const scrollNumber = document.getElmentById("scrolls").value
 
-        const payload = {
-          url: urlValue,
-          nombreArchivo: filenameValue,
-         // scrolls : scrollNumber
-        };
-
-        try {
-          const response = await fetch("http://34.70.61.24:3002/descargar-perfil-twitter", {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(payload)
-          });
-          
-          if (response.ok) {
-            console.log("Datos enviados con éxito");
-          } else {
-            console.log("Error en la solicitud");
-          }
-        } catch (error) {
-          console.log("Error de red o del servidor", error);
-        }
-      });
-    });
-  </script>
 </body>
 </html>
 

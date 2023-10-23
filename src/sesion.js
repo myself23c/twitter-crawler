@@ -25,7 +25,7 @@ const fs = require('fs');
 
   // Guardar el estado de la sesión
   const storageState = await context.storageState();
-  fs.writeFileSync('storageState.json', JSON.stringify(storageState));
+  fs.writeFileSync('storageStateReddit.json', JSON.stringify(storageState));
 
   // Cerrar el navegador
   await browser.close();

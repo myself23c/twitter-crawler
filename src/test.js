@@ -121,7 +121,7 @@ await page.route('**/*', async (route) => {
 
 
 
-exports.descargador = async function (urlsYaParseadas, archiveName = "archivo") {
+exports.descargador = async function (urlsYaParseadas) {
     const downloadFolder = path.join(__dirname, 'imagenes_descargadas');
     await fse.ensureDir(downloadFolder);
   

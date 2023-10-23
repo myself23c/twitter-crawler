@@ -3,6 +3,8 @@ const bodyParser = require('body-parser');
 const fs = require('fs');
 const path = require('path');
 const {parseadorUrls} = require("./src/app")
+const {appReddit} = require("./srcReddit/appReddit")
+const morgan = require('morgan');
 
 const app = express()
 
@@ -10,6 +12,7 @@ const app = express()
 
 const port = 3002
 
+app.use(morgan('dev')); 
 app.use(bodyParser.json());
 app.use(express.static('public'));
 
@@ -112,6 +115,70 @@ async function processQueue() {
 //test
 
 
+
+
+
+//test reddit
+
+
+const requestQueueReddit = [];
+let isProcessingReddit = false;
+let concurrentRequests = 0; // Para llevar registro de cuántas solicitudes están siendo procesadas.
+const MAX_CONCURRENT_REQUESTS = 2; // El número máximo de solicitudes en paralelo.
+
+// Endpoint para recibir la solicitud
+app.post("/descargar-perfil-reddit", async (req, res) => {
+  const { url, nombreArchivo } = req.body;
+  console.log(url, nombreArchivo);
+  if (!url) {
+    return res.status(400).send("no hay url");
+  }
+
+  try {
+    console.log("se agrego tu solicitud a la solo q para descargar");
+
+    requestQueueReddit.push({ req, res, url, nombreArchivo });
+    if (!isProcessingReddit) {
+      processQueueReddit();
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Error al capturar URLs de Reddit");
+  }
+});
+
+// Función para procesar la cola
+async function processQueueReddit() {
+  if (requestQueueReddit.length === 0) {
+    isProcessingReddit = false;
+    return;
+  }
+  
+  if (concurrentRequests >= MAX_CONCURRENT_REQUESTS) {
+    return;
+  }
+
+  isProcessingReddit = true;
+  const { req, res, url, nombreArchivo } = requestQueueReddit.shift();
+  concurrentRequests++;
+
+  try {
+    console.log("ya se esta empezando a procesar la nueva quoue");
+    console.log("Se empezó con el capturado de URLs de Reddit");
+    await appReddit(url, nombreArchivo);
+    await new Promise((resolve) => setTimeout(resolve, 10000)); // Retraso de 10 segundos
+    res.sendStatus(201);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Error al capturar URLs de Reddit");
+  }
+
+  concurrentRequests--;
+  processQueueReddit(); // Verificar si hay más trabajos en la cola para procesar.
+}
+
+//test
+////// test de reddit
 
 
 

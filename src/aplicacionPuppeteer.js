@@ -1,4 +1,4 @@
-const { chromium } = require('playwright');
+const playwright = require('playwright');
 const fs = require('fs');
 const path = require('path');
 const fse = require('fs-extra');
@@ -32,7 +32,7 @@ function navUrlsReddit(urlReddit) {
 
 
 exports.saveUrlsToFile = async function (URL_PAGE = "https://twitter.com/elonmusk", NUMBER_SCROLLS = 3, TIME_BETWEEN_SCROLL = 5000) {
-  const browser = await chromium.launch({
+  const browser = await playwright.chromium.launch({
     //headless: false,
     logger: {
       isEnabled: (name, severity) => name === 'browser',
@@ -118,7 +118,7 @@ exports.descargador = async function (urlsYaParseadas,archiveName) {
   const downloadFolder = path.join(__dirname, archiveName);
   await fse.ensureDir(downloadFolder);
 
-  const browser = await chromium.launch({
+  const browser = await playwright.chromium.launch({
    // headless: false
   });
 

@@ -5,14 +5,14 @@ const fs = require('fs');
   const browser = await chromium.launch({
     headless: false
   });
-  const storageState = JSON.parse(fs.readFileSync('storageState.json').toString());
+  const storageState = JSON.parse(fs.readFileSync('storageStateReddit.json').toString());
   const context = await browser.newContext({ storageState: storageState });
   const page = await context.newPage();
   
   // Navega a una página donde deberías estar autenticado
   await page.goto('https://twitter.com/');
 
-  await new Promise(resolve => setTimeout(resolve, 70000));
+  await new Promise(resolve => setTimeout(resolve, 40000));
   
   await browser.close();
 })();
